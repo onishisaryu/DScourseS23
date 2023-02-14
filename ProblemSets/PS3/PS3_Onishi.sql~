@@ -1,6 +1,6 @@
 --Create table
 CREATE TABLE "insurance" (
-  policyID INTEGER,
+  policyID INTEGER PRIMARY KEY,
   statecode TEXT,
   county TEXT,
   eq_site_limit REAL,
@@ -26,18 +26,21 @@ CREATE TABLE "insurance" (
 .import FL_insurance_sample.csv "insurance"
 
 --printing the first 10 lines of the csv file
-DELETE FROM insurance WHERE policyID = 'policyID';
-SELECT * FROM insurance LIMIT 10;
+SELECT * FROM insurance LIMIT 11;
 
 --list of unique counties in the sample
 SELECT DISTINCT county FROM insurance;
 
 --change in average property appretiation
-SELECT AVG(tiv_2012 - tiv_2011) AS difference FROM insurance;
+SELECT AVG(tiv_2012 - tiv_2011) AS difference
+FROM insurance;
 
 --construction material count
-SELECT construction, COUNT(*) AS frequency FROM insurance GROUP BY construction;
+SELECT construction, COUNT(*) AS frequency
+FROM insurance
+GROUP BY construction;
 
---save output
-.output insurance.sqlite3
-.dump
+SELECT construction, count(*)/(SELECT count(*) FROM insurance) as frequency
+FROM insurance
+GROUP BY construction;
+
