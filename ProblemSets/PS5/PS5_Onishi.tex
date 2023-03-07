@@ -1,0 +1,24 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[top=1in,bottom=1in,left=1in,right=1in]{geometry}
+\setlength{\parindent}{0pt} 
+
+
+\title{PS5-Onishi}
+\author{Saryu Onishi}
+\date{March 2023}
+
+\begin{document}
+
+\maketitle
+\section{Question 3}
+I used the R package rvest to parse data from a website that collects sporting event results. Specifically, I scraped data for historical Ironman World Championships results. This is interesting to me because Ironman has changed dramatically as technologies in swimming, cycling and running have improved. 
+
+\section{Question 4}
+rStrava package
+I used an API Strava.com - a popular social media where users share training data.  Using rStrava, I was able to collect specific details about the recent activities of users (just from my own profile, for now). The fields of data included regular data like heart rate, speed, distance etc., but it also included data such as number of "kudos" or likes and latitude and longitude of the activity.
+This is a much more effective way to collect in-depth data from Strava activities as there is no need to open up each activity now. Furthermore, these details also include mapping data that can be used to visualize these activities quickly in R.  
+The package is especially useful when combined with dplyr and ggmap. I did have to obtain another API key for Google Maps to create mapped data points, however. 
+The only downside is that scraping Strava data requires the specific user to allow access (hence the OAuth 2.0 authorization protocol).
+\end{document}
+
