@@ -1,0 +1,75 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[top=1in,bottom=1in,left=1in,right=1in]{geometry}
+\usepackage{booktabs}
+\usepackage{siunitx}
+\newcolumntype{d}{S[input-open-uncertainty=,input-close-uncertainty=,parse-numbers = false,table-align-text-pre=false,table-align-text-post=false]}
+\usepackage{rotating}
+
+\begin{document}
+\title{PS7-Onishi}
+\author{Saryu Onishi}
+\date{March 2023}
+\maketitle
+
+\section{wages.csv Summary}
+$25\%$ of 'logwage' data are missing (Table 1). Although it is difficult to say what type of missingness we see in the logwage variable, since we cannot account for the missingness using other variables, we can rule out MAR. \\
+I would be inclined to suggest MCAR because the model using the complete cases-only dataset produced a beta estimate closest to the true value However, given the fact that MCAR almost never occurs in real life, I would guess that this missingness could be attributed to variables that are not measured, and hence is categorised at MNAR.
+\begin{table}[ht]
+    \centering
+    \begin{tabular}[t]{lrrrrrrr}
+    \toprule
+      & Unique (\#) & Missing (\%) & Mean & SD & Min & Median & Max\\
+    \midrule
+    logwage & 670 & 25 & \num{1.6} & \num{0.4} & \num{0.0} & \num{1.7} & \num{2.3}\\
+    hgc & 16 & 0 & \num{13.1} & \num{2.5} & \num{0.0} & \num{12.0} & \num{18.0}\\
+    tenure & 259 & 0 & \num{6.0} & \num{5.5} & \num{0.0} & \num{3.8} & \num{25.9}\\
+    age & 13 & 0 & \num{39.2} & \num{3.1} & \num{34.0} & \num{39.0} & \num{46.0}\\
+    \bottomrule
+    \end{tabular}
+    \caption{Data summary}
+    \label{Table:1}
+\end{table}
+
+\section{Model Summary}
+$\hat{\beta_1}$ varies across the four models (Table 2). The model using likewise deletion to remove the missing data generated a $\hat{\beta_1}$ of 0.062. The model that predicted the missing values based on the complete cases model, has a $\hat{\beta_1}$ of 0.062. Both of these models had very close $\hat{\beta_1}$, and were the closest to the true value of 0.093.\\
+The next closest $\hat{\beta_1}$  was achieved through the multiple imputation regression model using the mice package. Here, the $\hat{\beta_1}=0.058$.\\
+The model with the $\hat{\beta_1}$ furthest from the true $\hat{\beta_1}$ was the model that used mean imputation, with a $\hat{\beta_1}$ value of 0.049. This does not surprise me as it is not generally recommended. \\
+I think when we look at all the methods used here, it can be said that the simple list-wise deletion can work as well as multiple imputation regression models, in some circumstances.
+
+\begin{sidewaystable}
+  \centering
+\begin{tabular}[ht]{lcccc}
+\toprule
+  & Complete Cases Only & Mean Imputation & Predicted from Compete Cases Model & Mice\\
+\midrule
+(Intercept) & \num{0.639} & \num{0.833} & \num{0.639} & \num{0.727}\\
+ & (\num{0.146}) & (\num{0.115}) & (\num{0.111}) & (\num{0.139})\\
+hgc & \num{0.062} & \num{0.049} & \num{0.062} & \num{0.058}\\
+ & (\num{0.005}) & (\num{0.004}) & (\num{0.004}) & (\num{0.005})\\
+collegenot college grad & \num{0.146} & \num{0.160} & \num{0.146} & \num{0.107}\\
+ & (\num{0.035}) & (\num{0.026}) & (\num{0.025}) & (\num{0.029})\\
+tenure & \num{0.023} & \num{0.015} & \num{0.023} & \num{0.022}\\
+ & (\num{0.002}) & (\num{0.001}) & (\num{0.001}) & (\num{0.002})\\
+age & \num{-0.001} & \num{-0.001} & \num{-0.001} & \num{-0.001}\\
+ & (\num{0.003}) & (\num{0.002}) & (\num{0.002}) & (\num{0.003})\\
+marriedsingle & \num{-0.024} & \num{-0.029} & \num{-0.024} & \num{-0.025}\\
+ & (\num{0.018}) & (\num{0.014}) & (\num{0.013}) & (\num{0.017})\\
+\midrule
+Num.Obs. & \num{1669} & \num{2229} & \num{2229} & \num{2229}\\
+Num.Imp. &  &  &  & \num{5}\\
+R2 & \num{0.195} & \num{0.132} & \num{0.268} & \num{0.208}\\
+R2 Adj. & \num{0.192} & \num{0.130} & \num{0.266} & \num{0.206}\\
+AIC & \num{1206.1} & \num{1129.3} & \num{961.2} & \\
+BIC & \num{1244.0} & \num{1169.3} & \num{1001.1} & \\
+Log.Lik. & \num{-596.049} & \num{-557.651} & \num{-473.584} & \\
+RMSE & \num{0.35} & \num{0.31} & \num{0.30} & \\
+\bottomrule
+\end{tabular}
+\caption{Model summary}
+\label{Table:2}
+\end{sidewaystable}
+
+\section{Project}
+For the project, I was initially going to use the dataset I had been working with through the semester. However, I do not think the dataset will allow me to create a model, to produce a project that is up to the standard. I am currently looking at other data I may be able to use to generate a useful model.
+\end{document}
