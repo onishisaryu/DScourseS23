@@ -1,0 +1,88 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[top=1in,bottom=1in,left=1in,right=1in]{geometry}
+\usepackage{booktabs}
+\usepackage{siunitx}
+\newcolumntype{d}{S[input-open-uncertainty=,input-close-uncertainty=,parse-numbers = false,table-align-text-pre=false,table-align-text-post=false]}
+\usepackage{rotating}
+
+\begin{document}
+\title{PS8-Onishi}
+\author{Saryu Onishi}
+\date{April 2023}
+\maketitle
+
+\section{$\hat{\beta}_{\text{OLS}}$ from the closed form solution}
+Although the estimates from $(X'Y)^{-1}XY$ are not exactly the true values of beta, it is extremely close.
+
+\section{$\hat{\beta}_{\text{OLS}}$ from L-BFGS vs Nelder-Mead}
+The $\hat{\beta}_{\text{OLS}}$ differ between these two methods. The $\hat{\beta}_{\text{OLS}}$ calculated by the L-BFGS algorithm came very close. In comparison to this, $\hat{\beta}_{\text{OLS}}$ calculated by the Nelder-Mead method got close in some, and did not in others. Overall, the L-BFGS algorithm was able to generate more accurate estimates.
+
+\begin{table}[h]
+\centering
+\caption{Comparison of $\hat{\beta}$ Estimates}
+\label{tab:beta_estimates}
+\begin{tabular}{@{}lccc@{}}
+\toprule
+& $\beta_{\text{true}}$ & $\hat{\beta}_{\text{L-BFGS}}$ & $\hat{\beta}_{\text{Nelder-Mead}}$ \\
+\midrule
+1 & 1.50 & 1.50 & 1.49\\
+2 & -1.00 & -0.99 & -0.88\\
+3 & -0.25 & -0.25 & -0.25\\
+4 & 0.75 & 0.74 & 1.08\\
+5 & 3.50 & 3.50 & 3.33\\
+6 & -2.00 & -2.00 & -2.00\\
+7 & 0.50 & 0.50 & 1.30\\
+8 & 1.00 & 1.00 & 0.10\\
+9 & 1.25 & 1.26 & 1.40\\
+10 & 2.00 & 2.00 & 2.15\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{$\hat{\beta}_{\text{OLS}}$ from the linear model function (lm())}
+The linear model function in R performed well. It was comparable to both the analytical approach and the L-BFGS algorithm. In fact, these values were identical to 7 decimal places.\\
+Relative to the "ground truth", $\hat{\beta}_{\text{OLS}}$ from the linear model function is not far off.
+
+\begin{table}
+\centering
+\caption{$\hat{\beta}_{\text{OLS}}$ via lm()}
+\label{tab:lm_beta_estimates}
+\begin{tabular}{@{}lccc@{}}
+\toprule
+  & $\hat{\beta}_{\text{OLS}}$ estimates\\
+\midrule
+X1 & 1.501\\
+ & (0.002)\\
+X2 & -0.991\\
+ & \vphantom{8} (0.003)\\
+X3 & -0.247\\
+ & \vphantom{7} (0.003)\\
+X4 & 0.744\\
+ & \vphantom{6} (0.003)\\
+X5 & 3.504\\
+ & \vphantom{5} (0.003)\\
+X6 & -1.999\\
+ & \vphantom{4} (0.003)\\
+X7 & 0.502\\
+ & \vphantom{3} (0.003)\\
+X8 & 0.997\\
+ & \vphantom{2} (0.003)\\
+X9 & 1.256\\
+ & \vphantom{1} (0.003)\\
+X10 & 1.999\\
+ & (0.003)\\
+\midrule
+Num.Obs. & 1e+05\\
+R2 & 0.971\\
+R2 Adj. & 0.971\\
+AIC & 144993.2\\
+BIC & 145097.9\\
+Log.Lik. & -72485.615\\
+RMSE & 0.50\\
+\bottomrule
+\end{tabular}
+\label{Table:1}
+\end{table}
+
+\end{document}
