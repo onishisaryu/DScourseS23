@@ -1,0 +1,75 @@
+% Fonts/languages
+\documentclass[12pt,english]{exam}
+\IfFileExists{lmodern.sty}{\usepackage{lmodern}}{}
+\usepackage[T1]{fontenc}
+\usepackage[latin9]{inputenc}
+\usepackage{babel}
+\usepackage{mathpazo}
+%\usepackage{mathptmx}
+
+% Colors: see  http://www.math.umbc.edu/~rouben/beamer/quickstart-Z-H-25.html
+\usepackage{color}
+\usepackage[dvipsnames]{xcolor}
+\definecolor{byublue}     {RGB}{0.  ,30. ,76. }
+\definecolor{deepred}     {RGB}{190.,0.  ,0.  }
+\definecolor{deeperred}   {RGB}{160.,0.  ,0.  }
+\newcommand{\textblue}[1]{\textcolor{byublue}{#1}}
+\newcommand{\textred}[1]{\textcolor{deeperred}{#1}}
+
+% Layout
+\usepackage{setspace} %singlespacing; onehalfspacing; doublespacing; setstretch{1.1}
+\setstretch{1.2}
+\usepackage[verbose,nomarginpar,margin=0.7in]{geometry} % Margins
+
+% Headers/Footers
+\setlength{\headheight}{15pt}	
+%\usepackage{fancyhdr}
+%\pagestyle{fancy}
+%\lhead{For-Profit Notes} \chead{} \rhead{\thepage}
+%\lfoot{} \cfoot{} \rfoot{}
+
+% Useful Packages
+%\usepackage{bookmark} % For speedier bookmarks
+\usepackage{amsthm}   % For detailed theorems
+\usepackage{amssymb}  % For fancy math symbols
+\usepackage{amsmath}  % For awesome equations/equation arrays
+\usepackage{array}    % For tubular tables
+\usepackage{booktabs}
+\usepackage{longtable}% For long tables
+\usepackage[flushleft]{threeparttable} % For three-part tables
+\usepackage{multicol} % For multi-column cells
+\usepackage{multirow}
+\usepackage{graphicx} % For shiny pictures
+\usepackage{subfig}   % For sub-shiny pictures
+\usepackage{enumerate}% For cusomtizable lists
+\usepackage{pstricks,pst-node,pst-tree,pst-plot} % For trees
+\usepackage{listings}
+\lstset{basicstyle=\ttfamily\footnotesize,breaklines=true}
+
+% TOC
+\setcounter{tocdepth}{4}
+
+\begin{document}
+\title{PS10-Onishi}
+\author{Saryu Onishi}
+\date{April 2023}
+\maketitle
+
+\section{Out-of-sample performance comparison}
+\begin{table}
+\centering
+\begin{tabular}[h]{|llllllll|}
+\toprule
+penalty & $.$estimate & alg & cost\_complexity & tree\_depth & min\_n & hidden\_units & neighbors\\
+\midrule
+0.00 & 0.85 & logit &  &  &  &  & \\
+ & 0.87 & tree & 0.00 & 10.00 & 50.00 &  & \\
+1.00 & 0.85 & nnet &  &  &  & 1.00 & \\
+ & 0.84 & knn &  &  &  &  & 28.00\\
+\bottomrule
+\end{tabular}
+\end{table}
+The .estimate column represents out-of-sample performance. Based on the results shown in the table, it can be concluded that the decision tree algorithm may be the best-performing algorithm. \\ The second best is the logistic regression algorithm, as it maintains a good out-of-sample performance without losing complexity. \\ The next nearest neighbour algorithm is the worst performing, relatively. However, all four models from the four algorithms have produced models with relatively similar out-of-sample performance.\\
+The SVM model was omitted because I could not resolve an error interrupting the tuning process.
+\end{document}
+
