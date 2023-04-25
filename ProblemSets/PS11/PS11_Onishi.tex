@@ -1,0 +1,204 @@
+\documentclass[12pt,english]{article}
+\usepackage{mathptmx}
+
+\usepackage{color}
+\usepackage[dvipsnames]{xcolor}
+\definecolor{darkblue}{RGB}{0.,0.,139.}
+
+\usepackage[top=1in, bottom=1in, left=1in, right=1in]{geometry}
+
+\usepackage{amsmath}
+\usepackage{amstext}
+\usepackage{amssymb}
+\usepackage{setspace}
+\usepackage{lipsum} %remove for final
+
+\usepackage[authoryear]{natbib}
+\usepackage{url}
+\usepackage{booktabs}
+\usepackage[flushleft]{threeparttable}
+\usepackage{graphicx}
+\usepackage[english]{babel}
+\usepackage{pdflscape}
+\usepackage[unicode=true,pdfusetitle,
+ bookmarks=true,bookmarksnumbered=false,bookmarksopen=false,
+ breaklinks=true,pdfborder={0 0 0},backref=false,
+ colorlinks,citecolor=black,filecolor=black,
+ linkcolor=black,urlcolor=black]
+ {hyperref}
+\usepackage[all]{hypcap} % Links point to top of image, builds on hyperref
+\usepackage{breakurl}    % Allows urls to wrap, including hyperref
+\usepackage{indentfirst}
+\linespread{2}
+
+\begin{document}
+
+\begin{singlespace}
+\title{Exploring Strava's Suffer Score}
+\end{singlespace}
+
+\author{Saryu Onishi\thanks{Department of Health and Exercise Sciences, University of Oklahoma.\
+E-mail~address:~\href{mailto:saryu@ou.edu}{saryu@ou.edu}}}
+
+% \date{\today}
+\date{April, 2023}
+
+\maketitle
+
+%\begin{abstract}
+%\begin{singlespace}
+%A short summary of what question the project answers, what methods are used, and any policy (or business) implications from the findings.
+%\end{singlespace}
+
+%\end{abstract}
+\vfill{}
+
+
+\pagebreak{}
+
+
+\section{Introduction}\label{sec:intro}
+Strava is a popular social media platform many athletes use to share their most recent athletic endeavours. These can range from walks around the block to snowboarding down a mountain. Even activities like pickleball can be uploaded onto Strava. In addition to the sharing, liking, and commenting on fellow users' uploads, athletes can use Strava to analyze their workouts. This is why Strava is particularly popular amongst endurance athletes. The analysis goes beyond the typical activity summaries GPS watches provide at the end of a workout. Although many of the workout analysis features can be accessed on the free version of Strava, some other features require users to be a paid member.
+
+Strava's "suffer score" one of these feature that is only accessible to paid members. The suffer score is built to be a performance metric that represents how tough an activity was, in a single number. In exercise physiology, metrics like these are called measures of training load \cite{bourdon2017monitoring}. According to \cite{StravaSufferScore}, their suffer score is calculated based on time spent in various heart rate (HR) 'zones'. The time spent in a higher HR zone is weighed heavier, compared to the time spent in a lower HR zone. 
+
+This project aims to estimate the Strava Suffer Score training load metric using simpler activity summary metrics to cater to new users who are curious or existing users who prefer not to pay a subscription fee.
+
+\section{Literature Review}\label{sec:litreview}
+\noindent The goal of a training load measure is to capture the physiological impact of a workout session. More lit on topics related to the different types of measures (internal, external, TRIMPS, etc).
+\begin{itemize}
+  \item \cite{bourdon2017monitoring}
+  \item \cite{lambert2010measuring}
+  \item \cite{roos2013monitoring}
+\end{itemize}
+
+\section{Data}\label{sec:data}
+\subsection{Data Collection}
+Data for this project was scraped from the activity log of a single Strava user, using the Strava API. The data was loaded into R studio software for further analysis using the rStrava R package.
+
+Data was only collected from one user for a few reasons:
+\begin{itemize}
+    \item Limitations of API - authentication required to access user data.
+    \item Variability of heart rate responses across individuals.
+    \item Ample data can be obtained from a single user.
+\end{itemize}
+
+\subsection{Data Cleaning}
+The activity log was filtered to only include metrics such as time, distance, average heart rate and average speed. This was done because the goal of the project was to estimate the Suffer Score based on simple summary metrics such as these. Table \ref{tab:descriptives} contains a descriptive statistics of the selected metrics. The data was also filtered to only include runs, as physiological responses to cycling and running (the two main types of activities in this data set) can differ significantly \cite{hassmen1990perceptual}. 
+
+\section{Methods}\label{sec:methods}
+The primary model can be depicted in the following equation:
+
+\begin{equation}
+\label{eq:1}
+Y_r=\beta_{0} + \beta_{1}X_{1} + \beta_{2}X_{2} + ... + \varepsilon,
+\end{equation}
+where $Y$ is Suffer Score for recorded runs ($r$), and $X$ are summary statistics. The parameter of interest are the $\beta_{n}$.
+
+The backwards stepwise regression method was used to include only the significant independent variables. This was done in R studio by using ...
+
+The models were then tested for (assumptions) and (fit).
+\begin{itemize}
+    \item figures for plot(model) - linearity, homoscedasticity etc
+\end{itemize}
+
+\section{Research Findings}\label{sec:results}
+The main results are reported in Table \ref{tab:estimates}.
+
+\section{Conclusion}\label{sec:conclusion}
+The results showed: 
+\begin{itemize}
+    \item the limitations of using simple statistics.
+    \item non-linear pattern.
+\end{itemize}
+
+For future research, machine learning could be integrated to generate a model that may estimate Suffer Score better.
+
+\vfill
+\pagebreak{}
+\begin{spacing}{1.0}
+\bibliographystyle{jpe}
+\bibliography{references.bib}
+\addcontentsline{toc}{section}{References}
+\end{spacing}
+
+\vfill
+\pagebreak{}
+\clearpage
+
+%========================================
+% FIGURES AND TABLES 
+%========================================
+\section*{Figures and Tables}\label{sec:figTables}
+\addcontentsline{toc}{section}{Figures and Tables}
+
+%----------------------------------------
+% Table 1
+%----------------------------------------
+\begin{table}[ht]
+\caption{Statistics for Strava Run Data}
+\label{tab:descriptives} 
+\centering
+\begin{threeparttable}
+\begin{tabular}{lcccc}
+%&&&&&\\
+\multicolumn{5}{l}{}\\
+\toprule
+Metric (units)        & Mean  & Std. Dev. & Min   & Max   \\
+\midrule
+\textbf{Suffer Score}    & 4.127 & 31.38     & 7.00 & 175.00 \\
+Distance (km)            & 12.19 & 3.76      & 5.01 & 23.51 \\
+Elapsed Time (min)       & 63.64 & 20.83     & 17.95 & 144.72 \\
+Elevation Gain (m)       & 59.43 & 60.74     & 0.00 & 303.10 \\
+Average Heart Rate (bpm) & 147.4 & 11.30     & 116.60 & 184.00 \\
+Max Heart Rate (bpm)     & 170.2 & 170.18    & 136.00 & 204.00 \\
+Average Cadence (spm)    & 88.01 & 1.78      & 83.70 & 95.20 \\
+Average Speed (kph)      & 12.31 & 1.37      & 8.35 & 16.74 \\
+&&&&\\
+\bottomrule
+\end{tabular}
+\footnotesize Notes: Sample size for all variables is $N=306$.
+\end{threeparttable}
+\end{table}
+
+
+%----------------------------------------
+% Table 2
+%----------------------------------------
+\begin{table}[ht]
+\caption{Model Summaries}
+\label{tab:estimates} 
+\centering
+\begin{threeparttable}
+\begin{tabular}{lcc}
+\toprule
+                 & All Variables    & Backwards Stepwise Regression \\
+\midrule
+Distance             & -1.977***       & -0.536**    \\
+                     & (0.219)         & (0.214)     \\
+Time                 & xx.xx           & xx.xxx     \\
+                     & (0.219)         & (0.214)     \\
+Average Heart Rate   & xx.xxx         & xx.xxx   \\
+                     & (0.219)         & (0.214)     \\
+...                  &  xx.xxx        &  xx.xxx\\
+                     & (x.xxx)         & (x.xxx)     \\
+\midrule
+$R$ value                  & 0.71          & 0.73      \\
+\bottomrule
+\end{tabular}
+\footnotesize Notes: actual values will be inserted later..
+\end{threeparttable}
+\end{table}
+%----------------------------------------
+% Figure 1
+%----------------------------------------
+\begin{figure}[ht]
+\centering
+\bigskip{}
+%\includegraphics[width=.9\linewidth]{fig1.eps}
+\caption{Performance of Regression Model}
+\label{fig:fig1}
+\end{figure}
+
+\end{document}
+
